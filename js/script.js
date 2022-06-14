@@ -18,6 +18,8 @@ const activitiesElement = document.querySelector("#activities");
 const activitiesBoxElm = document.querySelector(".activities-box");
 // Var that references the Activity cost value
 const activitiesTotalCost = document.querySelector("#activities-cost");
+// Var that references all input elements from Activity div 
+const activitiesInput = document.querySelectorAll('#activities input')
 // Var that references payment methods div
 const paymentsMethodsElement = document.querySelector(".payment-methods");
 // Var that references the credit card number element
@@ -117,6 +119,20 @@ activitiesElement.addEventListener("change", (e) => {
 });
 
 /**
+ * Activities focus state indicator
+ * 1. When tabbing through the form's inputs the state of fucus change and blur event fires when an element has lost focus.
+ */
+
+activitiesInput.forEach(input => {
+    input.addEventListener('focus', e => input.parentElement.classList.add('focus'));
+  
+    input.addEventListener('blur', e => {
+      const active = document.querySelector('.focus');
+      if (active) active.classList.remove('focus');
+    })
+  });
+
+/**
  * "Payment Info section:
  * 1. Selected Credit Card option as a default
  */
@@ -156,19 +172,20 @@ paymentsMethodsElement.addEventListener("change", (e) => {
  */
 
 function validationPass(element) {
-  element.parentElement.className = "valid";
+  element.parentElement.classList.add("valid");
   //element.parentNode.classList.remove = "valid";
   //element.parentElement.lastElementChild.className = 'valid';
+  element.parentElement.lastElementChild.className = "error";   
   element.parentElement.lastElementChild.classList.remove("not-valid");
   element.parentNode.lastElementChild.hidden = true;
 }
 
 function validationFail(element) {
-  element.parentNode.className = "not-valid";
-  element.parentNode.classList.remove = "not-valid";
-  element.parentNode.lastElementChild.className = "error";
+  element.parentElement.classList.add("not-valid");
+  element.parentElement.classList.remove("valid");
+  element.parentElement.lastElementChild.className = "error";
   element.parentElement.lastElementChild.classList.remove("valid");
-  element.parentNode.lastElementChild.style.display = "";
+  element.parentElement.lastElementChild.style.display = "";
 
 }
 
@@ -206,15 +223,13 @@ function emailValidator() {
 /* Helper function to validate Activities section if activitiesTotal has a value or not*/
 function activitiesValidator() {
   const activitiesSectionIsValid = activitiesTotal > 0;
-
+ 
   if (activitiesSectionIsValid) {
     validationPass(activitiesBoxElm);
-    //console.log("Validation passed!");
+    //console.log("Validation passed!"); 
   } else {
     validationFail(activitiesBoxElm);
   }
-
-  // Tests that the `languageTotal` variable provided you above equals an integer greater than zero.
   return activitiesSectionIsValid;
 }
 
@@ -239,10 +254,10 @@ function creditCardValidator() {
 
 /**
  * Event Listener 'submit'
- * When the values have been submitted the if statement check if the info i validated or not.
+ * When the values have been submitted the if statement check if the info is validated or not.
  */
 form.addEventListener("submit", (e) => {
-  e.preventDefault();
+  //e.preventDefault();
   if (!nameValidator()) {
     //console.log("Invalid name prevented submission");
     e.preventDefault();
@@ -258,6 +273,10 @@ form.addEventListener("submit", (e) => {
   if (!creditCardValidator()) {
     //console.log("Invalid name prevented submission");
     e.preventDefault();
-
+    
+  } else {
+     console.log("Validation Passed!");
+    window.location.reload();
+  
   }
 });
