@@ -258,25 +258,11 @@ function creditCardValidator() {
  */
 form.addEventListener("submit", (e) => {
   //e.preventDefault();
-  if (!nameValidator()) {
+  if (!nameValidator() && !emailValidator() && !activitiesValidator() && !creditCardValidator() ) {
     //console.log("Invalid name prevented submission");
     e.preventDefault();
-  }
-  if (!emailValidator()) {
-    //console.log("Invalid name prevented submission");
-    e.preventDefault();
-  }
-  if (!activitiesValidator()) {
-    //console.log("Invalid name prevented submission");
-    e.preventDefault();
-  }
-  if (!creditCardValidator()) {
-    //console.log("Invalid name prevented submission");
-    e.preventDefault();
-    
   } else {
      console.log("Validation Passed!");
-    window.location.reload();
   
   }
 });
