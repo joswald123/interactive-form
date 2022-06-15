@@ -35,6 +35,10 @@ const zipCodeElement = document.querySelector("#zip");
 const cvvElement = document.querySelector("#cvv");
 const checkbox = document.querySelectorAll("#activities-box input")
 //********
+const nameValid = nameValidator();
+const emailValid = emailValidator();
+const activitiesValid = activitiesValidator();
+const creditCardValid = creditCardValidator();
 
 // var activitiesTotal initialized with zero value
 let activitiesTotal = 0;
@@ -172,6 +176,7 @@ paymentsMethodsElement.addEventListener("change", (e) => {
  */
 
 function validationPass(element) {
+  element.parentElement.classList.remove("not-valid");
   element.parentElement.classList.add("valid");
   //element.parentNode.classList.remove = "valid";
   //element.parentElement.lastElementChild.className = 'valid';
@@ -238,18 +243,27 @@ function creditCardValidator() {
   const cardNumIsValid = /^[0-9]{13,16}$/.test(cardNumElement.value);
   const zipCodeIsValid = /^[0-9]{5}$/.test(zipCodeElement.value);
   const cvvIsValid = /^[0-9]{3}$/.test(cvvElement.value);
+  
 
-  if (cardNumIsValid && zipCodeIsValid && cvvIsValid) {
+  if(cardNumIsValid)  {
     validationPass(cardNumElement);
-    validationPass(zipCodeElement);
-    validationPass(cvvElement);
-    //console.log("Validation passed!");
-  } else {
+  }else {
     validationFail(cardNumElement);
+  }
+
+  if(zipCodeIsValid) {
+    validationPass(zipCodeElement);
+  }else {
     validationFail(zipCodeElement);
+  }
+
+  if(cvvIsValid) {
+    validationPass(cvvElement);
+  }else {
     validationFail(cvvElement);
   }
-  return cardNumIsValid;
+  
+  return cardNumIsValid && zipCodeIsValid && cvvIsValid;
 }
 
 /**
@@ -257,12 +271,9 @@ function creditCardValidator() {
  * When the values have been submitted the if statement check if the info is validated or not.
  */
 form.addEventListener("submit", (e) => {
-  //e.preventDefault();
-  if (!nameValidator() && !emailValidator() && !activitiesValidator() && !creditCardValidator() ) {
-    //console.log("Invalid name prevented submission");
+
+  if (nameValid && emailValid && activitiesValid && creditCardValid ) {
+  }else {
     e.preventDefault();
-  } else {
-     console.log("Validation Passed!");
-  
   }
 });
