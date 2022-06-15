@@ -35,10 +35,6 @@ const zipCodeElement = document.querySelector("#zip");
 const cvvElement = document.querySelector("#cvv");
 const checkbox = document.querySelectorAll("#activities-box input")
 //********
-const nameValid = nameValidator();
-const emailValid = emailValidator();
-const activitiesValid = activitiesValidator();
-const creditCardValid = creditCardValidator();
 
 // var activitiesTotal initialized with zero value
 let activitiesTotal = 0;
@@ -271,6 +267,11 @@ function creditCardValidator() {
  * When the values have been submitted the if statement check if the info is validated or not.
  */
 form.addEventListener("submit", (e) => {
+
+  const nameValid = nameValidator();
+  const emailValid = emailValidator();
+  const activitiesValid = activitiesValidator();
+  const creditCardValid = creditCardValidator();
 
   if (nameValid && emailValid && activitiesValid && creditCardValid ) {
   }else {
