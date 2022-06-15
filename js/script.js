@@ -174,18 +174,14 @@ paymentsMethodsElement.addEventListener("change", (e) => {
 function validationPass(element) {
   element.parentElement.classList.remove("not-valid");
   element.parentElement.classList.add("valid");
-  //element.parentNode.classList.remove = "valid";
-  //element.parentElement.lastElementChild.className = 'valid';
   element.parentElement.lastElementChild.className = "error";   
-  element.parentElement.lastElementChild.classList.remove("not-valid");
   element.parentNode.lastElementChild.hidden = true;
 }
 
 function validationFail(element) {
-  element.parentElement.classList.add("not-valid");
   element.parentElement.classList.remove("valid");
+  element.parentElement.classList.add("not-valid");
   element.parentElement.lastElementChild.className = "error";
-  element.parentElement.lastElementChild.classList.remove("valid");
   element.parentElement.lastElementChild.style.display = "";
 
 }
