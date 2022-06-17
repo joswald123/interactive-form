@@ -18,22 +18,23 @@ const activitiesElement = document.querySelector("#activities");
 const activitiesBoxElm = document.querySelector(".activities-box");
 // Var that references the Activity cost value
 const activitiesTotalCost = document.querySelector("#activities-cost");
-// Var that references all input elements from Activity div 
-const activitiesInput = document.querySelectorAll('#activities input')
+// Var that references all input elements from Activity div
+const activitiesInput = document.querySelectorAll("#activities input");
 // Var that references payment methods div
 const paymentsMethodsElement = document.querySelector(".payment-methods");
 // Var that references the credit card number element
 const cardNumberElement = document.querySelector("#cc-num");
- // Variables that references Payment options (Credit Card, paypal & Bitcoin)
+// Variables that references Payment options (Credit Card, paypal & Bitcoin)
 const creditCardOption = document.querySelector("#payment")[1];
- // Variables that references Payment options (Credit Card, paypal & Bitcoin) ****
+const creditCardOptions = document.querySelector("#payment");
+// Variables that references Payment options (Credit Card, paypal & Bitcoin) ****
 const paypalElement = document.querySelector(".paypal");
 const bitcoinElement = document.querySelector(".bitcoin");
 const creditCardElement = document.querySelector(".credit-card");
 const cardNumElement = document.querySelector("#cc-num");
 const zipCodeElement = document.querySelector("#zip");
 const cvvElement = document.querySelector("#cvv");
-const checkbox = document.querySelectorAll("#activities-box input")
+const checkbox = document.querySelectorAll("#activities-box input");
 //********
 
 // var activitiesTotal initialized with zero value
@@ -92,7 +93,7 @@ designElement.addEventListener("change", (e) => {
 /**
  * "Register for Activities" section:
  * 1. 'Event listener for Activities select element
- * 2. var activitiesTotal (above) initialized with zero value & count each time a checkbox is selected 
+ * 2. var activitiesTotal (above) initialized with zero value & count each time a checkbox is selected
  * according to the data-cost
  */
 
@@ -102,20 +103,19 @@ activitiesElement.addEventListener("change", (e) => {
   const cost = parseInt(costString, 10);
   const timeValue = e.target.getAttribute("data-day-and-time");
   //console.log(time)
-  
+
   checked ? (activitiesTotal += cost) : (activitiesTotal -= cost);
   activitiesTotalCost.innerHTML = `Total: $${activitiesTotal}`;
 
-// Logic to prevent users from selecting activities that occur at the same time.
+  // Logic to prevent users from selecting activities that occur at the same time.
 
-//   for(let i=0; i < checkbox.length; i ++) {
-//       let time = checkbox[i].getAttribute("data-day-and-time")
-//       if (time === timeValue){
-//           console.log("matched")
-//       }
+  //   for(let i=0; i < checkbox.length; i ++) {
+  //       let time = checkbox[i].getAttribute("data-day-and-time")
+  //       if (time === timeValue){
+  //           console.log("matched")
+  //       }
 
-//   }
-
+  //   }
 });
 
 /**
@@ -123,14 +123,16 @@ activitiesElement.addEventListener("change", (e) => {
  * 1. When tabbing through the form's inputs the state of fucus change and blur event fires when an element has lost focus.
  */
 
-activitiesInput.forEach(input => {
-    input.addEventListener('focus', e => input.parentElement.classList.add('focus'));
-  
-    input.addEventListener('blur', e => {
-      const active = document.querySelector('.focus');
-      if (active) active.classList.remove('focus');
-    })
+activitiesInput.forEach((input) => {
+  input.addEventListener("focus", (e) =>
+    input.parentElement.classList.add("focus")
+  );
+
+  input.addEventListener("blur", (e) => {
+    const active = document.querySelector(".focus");
+    if (active) active.classList.remove("focus");
   });
+});
 
 /**
  * "Payment Info section:
@@ -166,15 +168,15 @@ paymentsMethodsElement.addEventListener("change", (e) => {
 
 /**
  * Form validation
- * 1. Users are not able to submit a form without the required information, or with invalid information. 
+ * 1. Users are not able to submit a form without the required information, or with invalid information.
  * 2. Created 4 helper validation functions (Regex) to prevent the instruction above. (name, email, activity & Credit Card)
- * 3. Created two 
+ * 3. Created two
  */
 
 function validationPass(element) {
   element.parentElement.classList.remove("not-valid");
   element.parentElement.classList.add("valid");
-  element.parentElement.lastElementChild.className = "error";   
+  element.parentElement.lastElementChild.className = "error";
   element.parentNode.lastElementChild.hidden = true;
 }
 
@@ -183,7 +185,6 @@ function validationFail(element) {
   element.parentElement.classList.add("not-valid");
   element.parentElement.lastElementChild.className = "error";
   element.parentElement.lastElementChild.style.display = "";
-
 }
 
 /* Helper function to validate name input with Regex */
@@ -191,7 +192,8 @@ function validationFail(element) {
 function nameValidator() {
   // Tests that there is at least a first name containing only letters, and allows for a middle and last name.
   const nameIsValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(
-  nameElement.value);
+    nameElement.value
+  );
 
   // if/else statement.
   if (nameIsValid) {
@@ -220,10 +222,10 @@ function emailValidator() {
 /* Helper function to validate Activities section if activitiesTotal has a value or not*/
 function activitiesValidator() {
   const activitiesSectionIsValid = activitiesTotal > 0;
- 
+
   if (activitiesSectionIsValid) {
     validationPass(activitiesBoxElm);
-    //console.log("Validation passed!"); 
+    //console.log("Validation passed!");
   } else {
     validationFail(activitiesBoxElm);
   }
@@ -235,26 +237,25 @@ function creditCardValidator() {
   const cardNumIsValid = /^[0-9]{13,16}$/.test(cardNumElement.value);
   const zipCodeIsValid = /^[0-9]{5}$/.test(zipCodeElement.value);
   const cvvIsValid = /^[0-9]{3}$/.test(cvvElement.value);
-  
 
-  if(cardNumIsValid)  {
+  if (cardNumIsValid) {
     validationPass(cardNumElement);
-  }else {
+  } else {
     validationFail(cardNumElement);
   }
 
-  if(zipCodeIsValid) {
+  if (zipCodeIsValid) {
     validationPass(zipCodeElement);
-  }else {
+  } else {
     validationFail(zipCodeElement);
   }
 
-  if(cvvIsValid) {
+  if (cvvIsValid) {
     validationPass(cvvElement);
-  }else {
+  } else {
     validationFail(cvvElement);
   }
-  
+
   return cardNumIsValid && zipCodeIsValid && cvvIsValid;
 }
 
@@ -264,13 +265,25 @@ function creditCardValidator() {
  */
 form.addEventListener("submit", (e) => {
 
-  const nameValid = nameValidator();
-  const emailValid = emailValidator();
-  const activitiesValid = activitiesValidator();
-  const creditCardValid = creditCardValidator();
-
-  if (nameValid && emailValid && activitiesValid && creditCardValid ) {
-  }else {
+  if (!nameValidator() && !emailValidator() && !activitiesValidator()) {
     e.preventDefault();
   }
+
+  if(creditCardOptions.value === 'credit-card'){
+    if(!creditCardValidator()){
+      e.preventDefault();
+    }
+  }
+  
+});
+
+/**
+ * Event Listener 'keyup'
+ * When the values have been typed the validation function fires.
+ */
+
+form.addEventListener("keyup", (e) => {
+  nameValidator();
+  emailValidator();
+  creditCardValidator();
 });
