@@ -130,7 +130,7 @@ activitiesInput.forEach((input) => {
 
   input.addEventListener("blur", (e) => {
     const active = document.querySelector(".focus");
-    if (active) active.classList.remove("focus");
+    active.classList.remove("focus");
   });
 });
 
